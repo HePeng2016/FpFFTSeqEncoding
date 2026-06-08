@@ -1,0 +1,12 @@
+class FourierLayer(torch.nn.Module):
+    def __init__(self, N):
+        super().__init__()
+        self.weight = torch.nn.Parameter(
+            torch.randn(N, dtype=torch.cdouble)
+        )
+
+    def forward(self, x):
+        x = fft_cuda.fft(x)
+        x = x * self.weight
+        x = fft_cuda.ifft(x)
+        return x
